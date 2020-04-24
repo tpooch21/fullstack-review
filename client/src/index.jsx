@@ -14,6 +14,23 @@ class App extends React.Component {
     this.search = this.search.bind(this);
   }
 
+  componentDidMount() {
+    $.ajax({
+      method: 'GET',
+      url: 'http://localhost:1128/repos',
+      success: (repos) => {
+        this.setState({
+          repos
+        });
+      },
+      error: () => {
+        console.log('Error fetching data from server');
+      }
+    })
+
+  }
+
+
   search (term) {
     console.log(`${term} was searched`);
     // TODO
