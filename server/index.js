@@ -42,8 +42,14 @@ app.post('/repos', function (req, res) {
 app.get('/repos', function (req, res) {
   // TODO - your code here!
   // This route should send back the top 25 repos
+  db.find((err, results) => {
+    console.log('Logging results from get request to Db => ', results);
+    if (err) {
+      res.status(404).end();
+    }
+    res.status(200).json(results);
+  });
 
-  // IMPORT find function from db/index.js
 
 });
 

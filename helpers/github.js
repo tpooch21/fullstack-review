@@ -27,5 +27,5 @@ let getReposByUsername = (username, callback) => {
 
 module.exports.getReposByUsername = getReposByUsername;
 
-// "https://api.github.com/repos/${username}"
+
 
