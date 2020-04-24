@@ -5,11 +5,11 @@ mongoose.connect('mongodb://localhost/fetcher');
 
 let repoSchema = mongoose.Schema({
   // TODO: your schema here!
-  // id: Number
   // owner: string
   // ownerURL: string
   // repo_name: string
   // repo_url: string
+  // forks: number
 
 });
 
@@ -20,13 +20,19 @@ let Repo = mongoose.model('Repo', repoSchema);
 
 // Going to be working with a list of objects from GitHub API
 
-let save = (/* TODO */) => {
+let save = (repos, callback) => {
   // TODO: Your code here
-  // Will take list of objects from GitHub API as input, and error callback
-  // Iterate through them, initialize them into instances of Repo
-  // Call each object's save method, with error callback
-  // If error, callback(error)
-  // Probably don't need to return results, but will anyway
+  repos.forEach(repo => {
+    let record = new Repo({ owner: repo.owner.login, owner_profile: repo.owner.url, repo_name: repo.name, repo_url: repo.html_url, forks: repo.forks });
+
+    record.save((err) => {
+      if (err) {
+        callback(err)
+      }
+      callback(null);
+    });
+
+  });
 
 }
 

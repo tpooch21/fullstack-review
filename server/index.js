@@ -3,6 +3,7 @@ let app = express();
 const parser = require('body-parser');
 const morgan = require('morgan');
 const githubRepos = require('../helpers/github.js');
+const db = require('../database/index.js');
 
 app.use(express.static(__dirname + '/../client/dist'));
 
@@ -25,6 +26,12 @@ app.post('/repos', function (req, res) {
     }
     // Query the database to insert results
     // IMPORT save function from db/index.js
+    db.save(results, (err) => {
+      if (err) {
+        res.sendStatus(501);
+      }
+      res.sendStatus(201);
+    });
 
   });
 

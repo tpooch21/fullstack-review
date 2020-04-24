@@ -22,6 +22,7 @@ let getReposByUsername = (username, callback) => {
     const repos = JSON.parse(body);
     console.log('Logging response status code => ', response.statusCode);
     console.log('Logging repos from GitHub => ', repos);
+    callback(null, results);
   });
 
 }
