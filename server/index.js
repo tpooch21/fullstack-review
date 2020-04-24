@@ -13,10 +13,7 @@ app.use(parser.urlencoded());
 
 
 app.post('/repos', function (req, res) {
-  // TODO - your code here!
-  // This route should take the github username provided
-  // and get the repo information from the github API, then
-  // save the repo information in the database
+
   console.log('Logging request from client => ', req.body);
 
   // Step 1 - send get request to GitHub API for user repos
@@ -26,11 +23,16 @@ app.post('/repos', function (req, res) {
     }
     // Query the database to insert results
     // IMPORT save function from db/index.js
+
+    console.log('Logging return data from gitHub => ', results);
+
     db.save(results, (err) => {
       if (err) {
-        res.sendStatus(501);
+        res.status(501).end('Duplicate entry');
+      } else {
+        res.status(201).end();
       }
-      res.sendStatus(201);
+
     });
 
   });

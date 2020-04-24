@@ -1,16 +1,15 @@
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
+const uniqueValidator = require('mongoose-unique-validator');
 
-// const db = mongoose.connection;
 
 let repoSchema = mongoose.Schema({
   // TODO: your schema here!
-  // owner: string
-  // ownerURL: string
-  // repo_name: string
-  // repo_url: string
-  // forks: number
-
+  owner: String,
+  ownerURL: String,
+  repo_name: String,
+  repo_url: {type: String, unique: true},
+  forks: Number
 });
 
 let Repo = mongoose.model('Repo', repoSchema);
@@ -27,22 +26,34 @@ let save = (repos, callback) => {
 
     record.save((err) => {
       if (err) {
-        callback(err)
+        callback(err);
       }
       callback(null);
     });
 
   });
+}
+
+let find = (callback) => {
+
+  Repo.find().sort({forks: -1}).limit(25).exec((err, results) => {
+    if (err) {
+      callback(err)
+    }
+    callback(null, results);
+  });
 
 }
+
+
 
 // Let's also define a find function here that calls .find to access previously saved repos
-let find = () => {
-  // Repo.find({id: }) --> find ids that are within 25 of the last one
+// let find = () => {
+//   // Repo.find({id: }) --> find ids that are within 25 of the last one
 
 
 
-}
+// }
 
 
 module.exports.save = save;
