@@ -11,6 +11,7 @@ class App extends React.Component {
       repos: []
     }
 
+    this.search = this.search.bind(this);
   }
 
   search (term) {
@@ -20,7 +21,7 @@ class App extends React.Component {
     $.ajax({
       method: 'POST',
       url: 'http://localhost:1128/repos',
-      options: {
+      data: {
         username: term
       },
       success: (data) => {
