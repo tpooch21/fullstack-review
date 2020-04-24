@@ -3,10 +3,10 @@ import React from 'react';
 const RepoListEntry = (props) => (
   <div className="repo-list-entry">
     <ul className="repo">
-      <li>Owner: {props.repo.owner}</li>
-      <li>Repo Name: {props.repo.repo_name}</li>
-      <li>Repo URL: {props.repo.repo_url}</li>
-      <li>Forks: {props.repo.forks}</li>
+      <li><b>Owner:</b> {props.repo.owner}</li>
+      <li><b>Repo Name:</b> {props.repo.repo_name}</li>
+      <li><b>Repo URL:</b> <a href={props.repo.repo_url}>{props.repo.repo_url}</a></li>
+      <li><b>Forks:</b> {props.repo.forks}</li>
     </ul>
   </div>
 );
