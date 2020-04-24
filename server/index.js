@@ -18,6 +18,6 @@ app.get('/repos', function (req, res) {
 let port = 1128;
 
 app.listen(port, function() {
-  console.log(`listening on port ${port}`);
+  console.log(`listening on port http://localhost:${port}`);
 });
 
