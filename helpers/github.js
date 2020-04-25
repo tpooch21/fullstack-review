@@ -25,7 +25,26 @@ let getReposByUsername = (username, callback) => {
 
 }
 
+
+// Separate getContributorsByRepo
+let getContributorsByRepo = (url, callback) => {
+
+  let options = {
+    url,
+    headers: {
+      'User-Agent': 'request',
+      'Authorization': `token ${config.TOKEN}`
+    }
+  };
+
+  request(options, (error, response, body) => {
+    if (error) {
+      callback(error)
+    }
+    const contribs = JSON.parse(body);
+    callback(null, contribs);
+  });
+};
+
 module.exports.getReposByUsername = getReposByUsername;
-
-
-
+module.exports.getContributorsByRepo = getContributorsByRepo;

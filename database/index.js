@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
 const uniqueValidator = require('mongoose-unique-validator');
 
-
 let repoSchema = mongoose.Schema({
   // TODO: your schema here!
   owner: String,
@@ -14,7 +13,6 @@ let repoSchema = mongoose.Schema({
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-
 let save = (repos, callback) => {
   // TODO: Your code here
   let importedCount = 0;
@@ -24,10 +22,8 @@ let save = (repos, callback) => {
 
     record.save((err) => {
       if (err) {
-        console.log('Logging error on insertion => ', err);
         callback(err, null);
       } else {
-        console.log('Repo inserted successfully');
         importedCount++;
         if (importedCount === repos.length) {
           callback(null, importedCount);
@@ -48,6 +44,17 @@ let find = (callback) => {
   });
 
 }
+
+// DEFINE SCHEMA FOR CONTRIBUTORS TABLE, AND SAVE AND FIND FUNCTIONS
+let contributorsSchema = mongoose.Schema({
+  name: String,
+  contributorURL: {type: {}, unique: true},
+  objectID: {}
+});
+
+let Contributor = mongoose.model('Contributor', contributorsSchema);
+
+
 
 
 module.exports.save = save;
