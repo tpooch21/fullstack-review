@@ -19,18 +19,15 @@ app.post('/repos', function (req, res) {
   // Step 1 - send get request to GitHub API for user repos
   githubRepos.getReposByUsername(req.body.username, (err, results) => {
     if (err) {
-      res.sendStatus(404);
+      res.status(404).end();
     }
-    // Query the database to insert results
-    // IMPORT save function from db/index.js
 
-    console.log('Logging return data from gitHub => ', results);
-
-    db.save(results, (err) => {
+    db.save(results, (err, repoInfo) => {
       if (err) {
         res.status(501).end('Duplicate entry');
       } else {
-        res.status(201).end();
+        console.log('Logging imported repos => ', repoInfo);
+        res.status(201).json(repoInfo); // {"repoInfo": '20'}
       }
 
     });
@@ -49,7 +46,6 @@ app.get('/repos', function (req, res) {
     }
     res.status(200).json(results);
   });
-
 
 });
 

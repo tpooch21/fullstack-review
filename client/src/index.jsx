@@ -8,7 +8,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      repos: []
+      repos: [],
+      imported: 0
     }
 
     this.search = this.search.bind(this);
@@ -18,16 +19,17 @@ class App extends React.Component {
   // Refer to ajax request within different function
 
   componentDidMount() {
-    this.getTopRepos();
+    this.getTopRepos(0);
   }
 
-  getTopRepos() {
+  getTopRepos(imported) {
     $.ajax({
       method: 'GET',
       url: 'http://localhost:1128/repos',
       success: (repos) => {
         this.setState({
-          repos
+          repos,
+          imported
         });
       },
       error: () => {
@@ -48,8 +50,10 @@ class App extends React.Component {
       data: {
         username: term
       },
-      success: () => {
-        this.getTopRepos();
+      success: (data) => {
+        // var imported = JSON.parse(data);
+        console.log('Logging type of imported data => ', typeof data);
+        this.getTopRepos(data); // {repoInfo: 20}.repoInfo --> 20
       },
       error: () => {
         console.log('Error posting data to server');
@@ -61,7 +65,7 @@ class App extends React.Component {
   render () {
     return (<div>
       <h1>Github Fetcher</h1>
-      <RepoList repos={this.state.repos}/>
+      <RepoList repos={this.state.repos} imported={this.state.imported}/>
       <Search onSearch={this.search.bind(this)}/>
     </div>)
   }

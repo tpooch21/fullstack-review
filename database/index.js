@@ -17,17 +17,25 @@ let Repo = mongoose.model('Repo', repoSchema);
 
 let save = (repos, callback) => {
   // TODO: Your code here
+  let importedCount = 0;
+
   repos.forEach(repo => {
     let record = new Repo({ owner: repo.owner.login, ownerURL: repo.owner.html_url, repo_name: repo.name, repo_url: repo.html_url, forks: repo.forks });
 
     record.save((err) => {
       if (err) {
-        callback(err);
+        console.log('Logging error on insertion => ', err);
+        callback(err, null);
+      } else {
+        console.log('Repo inserted successfully');
+        importedCount++;
+        if (importedCount === repos.length) {
+          callback(null, importedCount);
+        }
       }
-      callback(null);
     });
-
   });
+
 }
 
 let find = (callback) => {

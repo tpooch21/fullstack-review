@@ -4,7 +4,8 @@ import RepoListEntry from './RepoListEntry.jsx';
 const RepoList = (props) => (
   <div>
     <h4> Repo List Component </h4>
-    There are {props.repos.length} repos.
+    {props.imported} repos were added based on your search.
+    Here are the top {props.repos.length} most forked repos.
     {props.repos.map(repo => {
       return <RepoListEntry repo={repo} />
     })}
