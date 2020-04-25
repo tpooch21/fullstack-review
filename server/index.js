@@ -23,11 +23,26 @@ app.post('/repos', function (req, res) {
     }
     // Make another API call, this time grabbing the contributors for each repo
     // Will need to provide Repo name, and owner name
+    let insertions = {count: 0};
+    console.log('Logging results length => ', results.length);
+
     results.forEach(repo => {
       githubRepos.getContributorsByRepo(repo.contributors_url, (err, contribs) => {
         // For each repo, will get contributor info
         // Add the repo to the db first, then when that's successful, iterate over each of the contributors and add them to that collection, passing thru the object id of the repo from the repo collection
-        db.save(repo, )
+
+        // For each repo, post the repo to repo collection, and then within the successCB within the db, post each contributor
+
+        db.save(repo, contribs, (err, postResponse) => {
+          insertions.count++;
+          if (err) {
+            res.status(501).end();
+          }
+          if (insertions.count === results.length) {
+            console.log('Logging insertions count => ', insertions.count);
+            res.status(201).json(insertions);
+          }
+        });
       });
     });
 

@@ -53,7 +53,7 @@ class App extends React.Component {
       success: (data) => {
         // var imported = JSON.parse(data);
         console.log('Logging type of imported data => ', typeof data);
-        this.getTopRepos(data); // {repoInfo: 20}.repoInfo --> 20
+        this.getTopRepos(data.count); // {repoInfo: 20}.repoInfo --> 20
       },
       error: () => {
         console.log('Error posting data to server');
