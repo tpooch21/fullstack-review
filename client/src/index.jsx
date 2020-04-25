@@ -12,9 +12,16 @@ class App extends React.Component {
     }
 
     this.search = this.search.bind(this);
+    this.getTopRepos = this.getTopRepos.bind(this);
   }
 
+  // Refer to ajax request within different function
+
   componentDidMount() {
+    this.getTopRepos();
+  }
+
+  getTopRepos() {
     $.ajax({
       method: 'GET',
       url: 'http://localhost:1128/repos',
@@ -24,9 +31,9 @@ class App extends React.Component {
         });
       },
       error: () => {
-        console.log('Error fetching data from server');
+        console.log('Failed to fetch data from the server');
       }
-    })
+    });
 
   }
 
@@ -41,8 +48,8 @@ class App extends React.Component {
       data: {
         username: term
       },
-      success: (data) => {
-        console.log('User repos posted successfully => ', data);
+      success: () => {
+        this.getTopRepos();
       },
       error: () => {
         console.log('Error posting data to server');

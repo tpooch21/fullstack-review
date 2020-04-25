@@ -14,15 +14,11 @@ let repoSchema = mongoose.Schema({
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-// Should take in an instance of Repo
-// Will call that object's save method
-
-// Going to be working with a list of objects from GitHub API
 
 let save = (repos, callback) => {
   // TODO: Your code here
   repos.forEach(repo => {
-    let record = new Repo({ owner: repo.owner.login, owner_profile: repo.owner.url, repo_name: repo.name, repo_url: repo.html_url, forks: repo.forks });
+    let record = new Repo({ owner: repo.owner.login, ownerURL: repo.owner.html_url, repo_name: repo.name, repo_url: repo.html_url, forks: repo.forks });
 
     record.save((err) => {
       if (err) {
@@ -44,16 +40,6 @@ let find = (callback) => {
   });
 
 }
-
-
-
-// Let's also define a find function here that calls .find to access previously saved repos
-// let find = () => {
-//   // Repo.find({id: }) --> find ids that are within 25 of the last one
-
-
-
-// }
 
 
 module.exports.save = save;
